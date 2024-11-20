@@ -1,11 +1,11 @@
 package com.fullcycle.admin.catalogo.domain.category;
 
+import com.fullcycle.admin.catalogo.domain.AggregateRoot;
+
 import java.time.Instant;
-import java.util.UUID;
 
-public class Category {
+public class Category extends AggregateRoot<CategoryID> {
 
-    private String id;
     private String name;
     private String description;
     private boolean active;
@@ -13,31 +13,31 @@ public class Category {
     private Instant updatedAt;
     private Instant deletedAt;
 
-    private Category(final String id,
-                    final String name,
-                    final String description,
-                    final boolean active,
-                    final Instant createdAt,
-                    final Instant updatedAt,
-                    final Instant deletedAt) {
-        this.name = name;
-        this.id = id;
-        this.description = description;
-        this.active = active;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.deletedAt = deletedAt;
+    private Category(final CategoryID anId,
+                    final String aName,
+                    final String aDescription,
+                    final boolean isActive,
+                    final Instant aCreatedDate,
+                    final Instant aUpdatedDate,
+                    final Instant aDeletedDate) {
+        super(anId);
+        this.name = aName;
+        this.description = aDescription;
+        this.active = isActive;
+        this.createdAt = aCreatedDate;
+        this.updatedAt = aUpdatedDate;
+        this.deletedAt = aDeletedDate;
     }
 
     public static Category newCategory(final String aName,
                                        final String aDescription,
                                        final boolean isActive) {
-        final var id = UUID.randomUUID().toString();
+        final var id = CategoryID.unique();
         final var now = Instant.now();
         return new Category(id, aName, aDescription, isActive, now, now, null);
     }
 
-    public String getId() {
+    public CategoryID getId() {
         return id;
     }
 
