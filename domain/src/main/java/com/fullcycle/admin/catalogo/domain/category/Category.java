@@ -10,7 +10,7 @@ public class Category extends AggregateRoot<CategoryID> {
     private String name;
     private String description;
     private boolean active;
-    private Instant createdAt;
+    final private Instant createdAt;
     private Instant updatedAt;
     private Instant deletedAt;
 
@@ -58,6 +58,21 @@ public class Category extends AggregateRoot<CategoryID> {
         }
 
         this.active = false;
+        this.updatedAt = Instant.now();
+
+        return this;
+    }
+
+    public Category update(final String aName,
+                           final String aDescription,
+                           final boolean isActive) {
+        if (isActive) {
+            activate();
+        } else {
+            deactivate();
+        }
+        this.name = aName;
+        this.description = aDescription;
         this.updatedAt = Instant.now();
 
         return this;
