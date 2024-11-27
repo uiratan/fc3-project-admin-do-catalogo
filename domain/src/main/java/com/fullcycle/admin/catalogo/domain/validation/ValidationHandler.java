@@ -17,4 +17,12 @@ public interface ValidationHandler {
     default boolean hasError() {
         return getErrors() != null && !getErrors().isEmpty();
     }
+
+    default Error firstError() {
+        if (hasError()) {
+            return getErrors().get(0);
+        } else {
+            return null;
+        }
+    }
 }
