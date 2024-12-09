@@ -79,7 +79,7 @@ class CategoryTest {
         final var expectedName = """
                 Caros amigos, a valorização de fatores subjetivos agrega valor ao estabelecimento do remanejamento dos quadros funcionais.
                 Todas estas questões, devidamente ponderadas, levantam dúvidas sobre se a competitividade nas transações comerciais deve passar por
-                modificações independentemente do retorno esperado a longo prazo. 
+                modificações independentemente do retorno esperado a longo prazo.
                 """;
         final var expectedErrorCount = 1;
         final var expectedErrorMessage = "'name' must be between 3 and 255 characters";

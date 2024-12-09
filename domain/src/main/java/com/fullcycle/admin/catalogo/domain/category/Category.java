@@ -73,6 +73,15 @@ public class Category extends AggregateRoot<CategoryID> implements Cloneable {
         }
         this.name = aName;
         this.description = aDescription;
+
+        try {
+            // Atraso de 1 segundo (1000 ms)
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // Reajusta o estado de interrupção da thread
+            throw new RuntimeException("Ocorreu um erro durante o timer", e);
+        }
+
         this.updatedAt = Instant.now();
 
         return this;

@@ -50,7 +50,7 @@ public class DeleteCategoryUseCaseTest {
 
     @Test
     public void givenAnInvalidID_whenCallsDeleteCategory_shouldBeOK() {
-        final var expectedId = aCategory.getId("123");
+        final var expectedId = CategoryID.from("123");
 
         Mockito.doNothing()
                 .when(categoryGateway)
