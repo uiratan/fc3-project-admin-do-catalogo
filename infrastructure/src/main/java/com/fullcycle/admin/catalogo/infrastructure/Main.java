@@ -18,17 +18,4 @@ public class Main {
         System.setProperty(AbstractEnvironment.DEFAULT_PROFILES_PROPERTY_NAME, "production");
         SpringApplication.run(WebServerConfig.class, args);
     }
-
-    @Bean
-    public ApplicationRunner runner(CategoryRepository repository) {
-        return args -> {
-            List<CategoryJpaEntity> all = repository.findAll();
-
-            Category filmes = Category.newCategory("Filmes", null, true);
-
-            repository.saveAndFlush(CategoryJpaEntity.from(filmes));
-
-            repository.deleteAll();
-        };
-    }
 }
