@@ -208,7 +208,7 @@ public class CategoryMySQLCategoryTest {
         Assertions.assertEquals(expectedPage, actualResult.currentPage());
         Assertions.assertEquals(expectedPerPage, actualResult.perPage());
         Assertions.assertEquals(expectedTotal, actualResult.total());
-        Assertions.assertEquals(expectedPerPage, actualResult.items().size());
+        Assertions.assertEquals(0, actualResult.items().size());
     }
 
     @Test
