@@ -6,8 +6,10 @@ import com.fullcycle.admin.catalogo.domain.validation.handler.Notification;
 import io.vavr.API;
 import io.vavr.control.Either;
 
+//import javax.inject.Named;
 import java.util.Objects;
 
+//@Named
 public class DefaultCreateCategoryUseCase extends CreateCategoryUseCase {
 
     private final CategoryGateway categoryGateway;

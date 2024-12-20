@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 public class GetCategoryByIdUseCaseTest {
 
     @InjectMocks
-    private DefaultListCategoriesUseCaseTest useCase;
+    private DefaultGetCategoryByIdUseCase useCase;
 
     @Mock
     private CategoryGateway categoryGateway;
