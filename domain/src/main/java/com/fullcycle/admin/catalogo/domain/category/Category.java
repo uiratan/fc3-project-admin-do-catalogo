@@ -37,9 +37,23 @@ public class Category extends AggregateRoot<CategoryID> implements Cloneable {
                                        final String aDescription,
                                        final boolean isActive) {
         final var id = CategoryID.unique();
-        final var now = Instant.now();
+
+        final var now = getNowWithTimer();
+
         final var deletedAt = isActive ? null : now;
         return new Category(id, aName, aDescription, isActive, now, now, deletedAt);
+    }
+
+    private static Instant getNowWithTimer() {
+        try {
+            // Atraso de 1 segundo (1000 ms)
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // Reajusta o estado de interrupção da thread
+            throw new RuntimeException("Ocorreu um erro durante o timer", e);
+        }
+        final var now = Instant.now();
+        return now;
     }
 
     public static Category with(
@@ -81,7 +95,8 @@ public class Category extends AggregateRoot<CategoryID> implements Cloneable {
     public Category activate() {
         this.deletedAt = null;
         this.active = true;
-        this.updatedAt = Instant.now();
+//        this.updatedAt = Instant.now();
+        setUpdateNowWithTimer();
 
         return this;
     }
@@ -92,7 +107,8 @@ public class Category extends AggregateRoot<CategoryID> implements Cloneable {
         }
 
         this.active = false;
-        this.updatedAt = Instant.now();
+//        this.updatedAt = Instant.now();
+        setUpdateNowWithTimer();
 
         return this;
     }
@@ -108,6 +124,12 @@ public class Category extends AggregateRoot<CategoryID> implements Cloneable {
         this.name = aName;
         this.description = aDescription;
 
+        setUpdateNowWithTimer();
+
+        return this;
+    }
+
+    private void setUpdateNowWithTimer() {
         try {
             // Atraso de 1 segundo (1000 ms)
             Thread.sleep(300);
@@ -117,8 +139,6 @@ public class Category extends AggregateRoot<CategoryID> implements Cloneable {
         }
 
         this.updatedAt = Instant.now();
-
-        return this;
     }
 
     public CategoryID getId() {
