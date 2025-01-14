@@ -9,6 +9,7 @@ import com.fullcycle.admin.catalogo.application.category.retrieve.get.GetCategor
 import com.fullcycle.admin.catalogo.domain.category.Category;
 import com.fullcycle.admin.catalogo.domain.category.CategoryID;
 import com.fullcycle.admin.catalogo.domain.exceptions.DomainException;
+import com.fullcycle.admin.catalogo.domain.exceptions.NotFoundException;
 import com.fullcycle.admin.catalogo.domain.validation.Error;
 import com.fullcycle.admin.catalogo.domain.validation.handler.Notification;
 import com.fullcycle.admin.catalogo.infrastructure.category.models.CreateCategoryApiInput;
@@ -171,20 +172,23 @@ public class CategoryAPITest {
                 .thenReturn(CategoryOutput.from(aCategory));
 
         // when
-        final var request = get("/categories/{id}", expectedId);
+        final var request = get("/categories/{id}", expectedId)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON_VALUE);
 
         final var response = this.mvc.perform(request)
                 .andDo(print());
 
         // then
         response.andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.id", equalTo(expectedId)))
                 .andExpect(jsonPath("$.name", equalTo(expectedName)))
                 .andExpect(jsonPath("$.description", equalTo(expectedDescription)))
                 .andExpect(jsonPath("$.is_active", equalTo(expectedIsActive)))
                 .andExpect(jsonPath("$.created_at", equalTo(aCategory.getCreatedAt().toString())))
                 .andExpect(jsonPath("$.updated_at", equalTo(aCategory.getUpdatedAt().toString())))
-                .andExpect(jsonPath("$.deleted_at", equalTo(aCategory.getDeletedAt().toString())));
+                .andExpect(jsonPath("$.deleted_at", equalTo(aCategory.getDeletedAt())));
 
         verify(getCategoryByIdUseCase, times(1)).execute(eq(expectedId));
     }
@@ -193,10 +197,14 @@ public class CategoryAPITest {
     public void givenAInvalidId_whenCallsGetCategory_shouldReturnNotFound() throws Exception {
         // given
         final var expectedErrorMessage = "Category with ID 123 was not found";
-        final var expectedId = CategoryID.from("123").getValue();
+        final var expectedId = CategoryID.from("123");
 
+        when(getCategoryByIdUseCase.execute(any()))
+                .thenThrow(NotFoundException.with(Category.class, expectedId));
         // when
-        final var request = get("/categories/{id}", expectedId);
+        final var request = get("/categories/{id}", expectedId.getValue())
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON_VALUE);
 
         final var response = this.mvc.perform(request)
                 .andDo(print());
