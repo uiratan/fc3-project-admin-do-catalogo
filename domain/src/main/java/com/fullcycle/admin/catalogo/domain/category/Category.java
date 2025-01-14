@@ -38,22 +38,12 @@ public class Category extends AggregateRoot<CategoryID> implements Cloneable {
                                        final boolean isActive) {
         final var id = CategoryID.unique();
 
-        final var now = getNowWithTimer();
+        pause();
+
+        final var now = Instant.now();
 
         final var deletedAt = isActive ? null : now;
         return new Category(id, aName, aDescription, isActive, now, now, deletedAt);
-    }
-
-    private static Instant getNowWithTimer() {
-        try {
-            // Atraso de 1 segundo (1000 ms)
-            Thread.sleep(300);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt(); // Reajusta o estado de interrupção da thread
-            throw new RuntimeException("Ocorreu um erro durante o timer", e);
-        }
-        final var now = Instant.now();
-        return now;
     }
 
     public static Category with(
@@ -95,8 +85,10 @@ public class Category extends AggregateRoot<CategoryID> implements Cloneable {
     public Category activate() {
         this.deletedAt = null;
         this.active = true;
-//        this.updatedAt = Instant.now();
-        setUpdateNowWithTimer();
+
+        pause();
+
+        this.updatedAt = Instant.now();
 
         return this;
     }
@@ -107,8 +99,10 @@ public class Category extends AggregateRoot<CategoryID> implements Cloneable {
         }
 
         this.active = false;
-//        this.updatedAt = Instant.now();
-        setUpdateNowWithTimer();
+
+        pause();
+
+        this.updatedAt = Instant.now();
 
         return this;
     }
@@ -124,21 +118,11 @@ public class Category extends AggregateRoot<CategoryID> implements Cloneable {
         this.name = aName;
         this.description = aDescription;
 
-        setUpdateNowWithTimer();
-
-        return this;
-    }
-
-    private void setUpdateNowWithTimer() {
-        try {
-            // Atraso de 1 segundo (1000 ms)
-            Thread.sleep(300);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt(); // Reajusta o estado de interrupção da thread
-            throw new RuntimeException("Ocorreu um erro durante o timer", e);
-        }
+        pause();
 
         this.updatedAt = Instant.now();
+
+        return this;
     }
 
     public CategoryID getId() {
@@ -176,6 +160,15 @@ public class Category extends AggregateRoot<CategoryID> implements Cloneable {
             return (Category) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
+        }
+    }
+
+    private static void pause() {
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Ocorreu um erro durante o timer", e);
         }
     }
 }
