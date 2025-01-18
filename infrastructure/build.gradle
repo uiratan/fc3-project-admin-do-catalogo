@@ -5,7 +5,7 @@ buildscript {
 
     dependencies {
         // Remova o flyway-mysql inexistente
-        // classpath 'org.flywaydb:flyway-mysql:8.5.10'
+        classpath 'org.flywaydb:flyway-mysql:9.11.0'
     }
 }
 
@@ -14,11 +14,11 @@ plugins {
     id 'application'
     id 'org.springframework.boot' version '2.6.7'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'org.flywaydb.flyway' version '8.5.10'
+    id 'org.flywaydb.flyway' version '9.11.0'
 }
 
 group = 'com.fullcycle.admin.catalogo.infrastructure'
-version = '1.0-SNAPSHOT'
+//version = '1.0-SNAPSHOT'
 
 bootJar {
     archiveFileName.set('application.jar')
