@@ -264,6 +264,7 @@ public class GenreTest {
         final var actualCreatedAt = actualGenre.getCreatedAt();
         final var actualUpdatedAt = actualGenre.getUpdatedAt();
 
+        pause();
         actualGenre.addCategory(seriesID);
         actualGenre.addCategory(moviesID);
 
