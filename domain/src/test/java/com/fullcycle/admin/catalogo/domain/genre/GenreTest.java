@@ -92,11 +92,7 @@ public class GenreTest {
         final var actualCreatedAt = actualGenre.getCreatedAt();
         final var actualUpdatedAt = actualGenre.getUpdatedAt();
 
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        pause();
         actualGenre.deactivate();
 
         Assertions.assertNotNull(actualGenre.getId());
@@ -123,11 +119,7 @@ public class GenreTest {
         final var actualCreatedAt = actualGenre.getCreatedAt();
         final var actualUpdatedAt = actualGenre.getUpdatedAt();
 
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        pause();
         actualGenre.activate();
 
         Assertions.assertNotNull(actualGenre.getId());
@@ -139,6 +131,8 @@ public class GenreTest {
         Assertions.assertNotNull(actualGenre.getUpdatedAt());
         Assertions.assertNull(actualGenre.getDeletedAt());
     }
+
+
 
     @Test
     public void givenAValidInactiveGenre_whenCallUpdateWithActivate_shouldReceiveGenreUpdated() {
@@ -155,6 +149,7 @@ public class GenreTest {
         final var actualCreatedAt = actualGenre.getCreatedAt();
         final var actualUpdatedAt = actualGenre.getUpdatedAt();
 
+        pause();
         actualGenre.update(expectedName, expectedIsActive, expectedCategories);
 
         Assertions.assertNotNull(actualGenre.getId());
@@ -181,6 +176,7 @@ public class GenreTest {
         final var actualCreatedAt = actualGenre.getCreatedAt();
         final var actualUpdatedAt = actualGenre.getUpdatedAt();
 
+        pause();
         actualGenre.update(expectedName, expectedIsActive, expectedCategories);
 
         Assertions.assertNotNull(actualGenre.getId());
@@ -226,5 +222,13 @@ public class GenreTest {
 
         Assertions.assertEquals(expectedErrorCount, actualException.getErrors().size());
         Assertions.assertEquals(expectedErrorMessage, actualException.getErrors().get(0).message());
+    }
+
+    private static void pause() {
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
