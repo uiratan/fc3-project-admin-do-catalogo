@@ -10,4 +10,12 @@ public final class InstantUtils {
     public static Instant now() {
         return Instant.now().truncatedTo(ChronoUnit.MICROS);
     }
+
+    public static void pause(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
