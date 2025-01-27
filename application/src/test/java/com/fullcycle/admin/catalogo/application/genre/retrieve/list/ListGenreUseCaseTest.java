@@ -69,7 +69,7 @@ public class ListGenreUseCaseTest extends UseCaseTest {
         // then
         Assertions.assertEquals(expectedPage, actualOutput.currentPage());
         Assertions.assertEquals(expectedPerPage, actualOutput.perPage());
-        Assertions.assertEquals(expectedTotal, actualOutput.totalItems());
+        Assertions.assertEquals(expectedTotal, actualOutput.total());
         Assertions.assertEquals(expectedItems, actualOutput.items());
 
         Mockito.verify(genreGateway, times(1)).findAll(eq(aQuery));
@@ -106,7 +106,7 @@ public class ListGenreUseCaseTest extends UseCaseTest {
         // then
         Assertions.assertEquals(expectedPage, actualOutput.currentPage());
         Assertions.assertEquals(expectedPerPage, actualOutput.perPage());
-        Assertions.assertEquals(expectedTotal, actualOutput.totalItems());
+        Assertions.assertEquals(expectedTotal, actualOutput.total());
         Assertions.assertEquals(expectedItems, actualOutput.items());
 
         Mockito.verify(genreGateway, times(1)).findAll(eq(aQuery));
