@@ -23,7 +23,7 @@ public class GenreCategoryJpaEntity {
         this.genre = aGenre;
     }
 
-    public GenreCategoryJpaEntity from(final GenreJpaEntity aGenre, final CategoryID aCategoryID) {
+    public static GenreCategoryJpaEntity from(final GenreJpaEntity aGenre, final CategoryID aCategoryID) {
         return new GenreCategoryJpaEntity(aGenre, aCategoryID);
     }
 
@@ -31,16 +31,18 @@ public class GenreCategoryJpaEntity {
         return id;
     }
 
-    public void setId(GenreCategoryID id) {
+    public GenreCategoryJpaEntity setId(GenreCategoryID id) {
         this.id = id;
+        return this;
     }
 
     public GenreJpaEntity getGenre() {
         return genre;
     }
 
-    public void setGenre(GenreJpaEntity genre) {
+    public GenreCategoryJpaEntity setGenre(GenreJpaEntity genre) {
         this.genre = genre;
+        return this;
     }
 
     @Override
